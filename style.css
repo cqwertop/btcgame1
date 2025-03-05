@@ -1,0 +1,144 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1f2a44, #415c7e);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #ffcc00;
+}
+
+h2, h3 {
+    margin-top: 15px;
+    font-size: 1.5em;
+    color: #ffcc00;
+}
+
+button {
+    background-color: #ffcc00;
+    color: #333;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #e5b700;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:disabled {
+    background-color: #777;
+    border-color: #777;
+    cursor: not-allowed;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+h3 {
+    font-size: 1.4em;
+    text-decoration: underline;
+    color: #ffcc00;
+}
+
+.info p {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #e6e6e6;
+}
+
+#bitcoinAmount, #hashRate, #powerUsage, #securityLevel, #poolBonus, #bitcoinValue {
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+#bitcoinValue {
+    font-size: 1.5em;
+    color: #b9e0ff;
+}
+
+#buyRigButton, #buySecurityButton, #joinPoolButton, #darkWebButton, #prestigeButton {
+    width: 250px;
+}
+
+#buyRigButton, #buySecurityButton {
+    background-color: #34b7f1;
+}
+
+#buyRigButton:hover, #buySecurityButton:hover {
+    background-color: #2a8bbd;
+}
+
+#joinPoolButton {
+    background-color: #ff5733;
+}
+
+#joinPoolButton:hover {
+    background-color: #c13a2e;
+}
+
+#darkWebButton {
+    background-color: #8b007f;
+}
+
+#darkWebButton:hover {
+    background-color: #67006e;
+}
+
+#prestigeButton {
+    background-color: #ff9800;
+}
+
+#prestigeButton:hover {
+    background-color: #e17a00;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2, h3 {
+        font-size: 1.3em;
+    }
+
+    button {
+        font-size: 1em;
+        padding: 8px 15px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+}
