@@ -8,8 +8,8 @@ let poolBonus = 0;
 let bitcoinValue = 50000;
 let poolCost = 200;
 let darkWebRisk = 0;
-let prestigeCost = 500;
-let marketFluctuationInterval = 5000; // Market updates every 5 seconds
+let prestigeCost = 200000000000000;
+let marketFluctuationInterval = 2500; // Market updates every 5 seconds
 
 // DOM Elements
 const mineButton = document.getElementById("mineButton");
