@@ -5,44 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitcoin Mining Game</title>
     <link rel="stylesheet" href="style.css">
-        
 </head>
 <body>
-    <div class="container">
-        <h1>Bitcoin Mining Game</h1>
-        <div class="section">
-            <h2>Bitcoin: <span id="bitcoinAmount">0</span></h2>
-            <h3>Bitcoin Price: <span id="bitcoinValue">50000</span> USD</h3>
-            <button id="mineButton">Mine Bitcoin</button>
+    <!-- Home Page -->
+    <div id="homePage">
+        <div class="container">
+            <h1>Bitcoin Mining Game</h1>
+            <button id="playButton">Play</button>
         </div>
+    </div>
 
-        <div class="section">
-            <h3>Your Rig:</h3>
-            <p>Hash Rate: <span id="hashRate">1</span> BTC/sec</p>
-            <p>Power Consumption: <span id="powerUsage">10</span> kWh</p>
-            <button id="buyRigButton">Upgrade Rig (Cost: <span id="rigCost">100</span>)</button>
-        </div>
+    <!-- Game Page -->
+    <div id="gamePage" style="display: none;">
+        <div class="container">
+            <h1>Bitcoin Mining Game</h1>
+            <div class="section">
+                <h2>Bitcoin: <span id="bitcoinAmount">0</span></h2>
+                <h3>USD Value: $<span id="usdAmount">0</span></h3>
+                <h3>Bitcoin Price: <span id="bitcoinValue">50000</span> USD</h3>
+                <button id="mineButton">Mine Bitcoin</button>
+            </div>
 
-        <div class="section">
-            <h3>Security & Hackers</h3>
-            <p>Security: <span id="securityLevel">0</span></p>
-            <button id="buySecurityButton">Buy Security (Cost: 50 BTC)</button>
-        </div>
+            <div class="section">
+                <h3>Your Rig:</h3>
+                <p>Hash Rate: <span id="hashRate">1</span> BTC/sec</p>
+                <p>Power Consumption: <span id="powerUsage">10</span> kWh</p>
+                <button id="buyRigButton">Upgrade Rig (Cost: <span id="rigCost">100</span>)</button>
+            </div>
 
-        <div class="section">
-            <h3>Mining Pools</h3>
-            <p>Pool Bonus: <span id="poolBonus">0</span>%</p>
-            <button id="joinPoolButton">Join Pool (Cost: 200 BTC)</button>
-        </div>
+            <div class="section">
+                <h3>Security & Hackers</h3>
+                <p>Security: <span id="securityLevel">0</span></p>
+                <button id="buySecurityButton">Buy Security (Cost: 50 BTC)</button>
+                <p>Hackers Owned: <span id="hackerCount">0</span></p>
+                <button id="buyHackerButton">Buy Hacker (Cost: 1 BTC)</button>
+            </div>
 
-        <div class="section">
-            <h3>Dark Web Market</h3>
-            <button id="darkWebButton">Check Dark Web Market</button>
-        </div>
+            <div class="section">
+                <h3>Mining Pools</h3>
+                <p>Pool Bonus: <span id="poolBonus">0</span>%</p>
+                <button id="joinPoolButton">Join Pool (Cost: 200 BTC)</button>
+            </div>
 
-        <div class="section">
-            <h3>Prestige</h3>
-            <button id="prestigeButton">Fork New Project (Cost: 200000000000000 BTC)</button>
+            <div class="section">
+                <h3>Dark Web Market</h3>
+                <button id="darkWebButton">Check Dark Web Market</button>
+            </div>
+
+            <div class="section">
+                <h3>Prestige</h3>
+                <button id="prestigeButton">Fork New Project (Cost: 200000000000000 BTC)</button>
+            </div>
         </div>
     </div>
 
