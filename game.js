@@ -12,7 +12,7 @@ let darkWebRisk = 0;
 let prestigeCost = 200000000000000;
 let marketFluctuationInterval = 2500; // Market updates every 5 seconds
 let hackerCount = 0; // Number of hackers owned
-let hackerCost = 1; // Cost per hacker
+let hackerCost = 100000000; // Cost per hacker
 
 // DOM Elements
 const mineButton = document.getElementById("mineButton");
