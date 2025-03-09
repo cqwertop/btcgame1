@@ -36,10 +36,6 @@ prestigeButton.addEventListener("click", prestige);
 
 // Mining Logic
 function mineBitcoin() {
-    if (bitcoinAmount < powerUsage) {
-        alert("Not enough Bitcoin to run all rigs due to power consumption!");
-        return;
-    }
     bitcoinAmount += (hashRate * (1 + poolBonus / 100));
     bitcoinAmountElement.textContent = bitcoinAmount.toFixed(2);
 }
