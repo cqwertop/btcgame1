@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mineButton = document.getElementById("mineButton");
     const bitcoinAmountElement = document.getElementById("bitcoinAmount");
     const usdAmountElement = document.getElementById("usdAmount");
-    const bitcoinValueElement = document.getElementById("bitcoinValue"); // New element to display Bitcoin value
+    const bitcoinValueElement = document.getElementById("bitcoinValue"); // Bitcoin value
     const securityLevelElement = document.getElementById("securityLevel");
     const hackerCountElement = document.getElementById("hackerCount");
     const buyHackerButton = document.getElementById("buyHackerButton");
@@ -61,8 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
         usdAmount = bitcoinAmount * bitcoinValue;
         usdAmountElement.textContent = usdAmount.toFixed(2);
         bitcoinAmountElement.textContent = bitcoinAmount.toFixed(2);
-        bitcoinValueElement.textContent = bitcoinValue.toFixed(2); // Update Bitcoin value on the page
+        bitcoinValueElement.textContent = bitcoinValue.toFixed(2); // Update Bitcoin value
         securityLevelElement.textContent = securityLevel;
+        hackerCountElement.textContent = hackerCount; // Update hacker count
     }
 
     // Bitcoin Value Fluctuation (Randomize Bitcoin Value every few seconds)
@@ -87,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (bitcoinAmount >= hackerCost) {
             bitcoinAmount -= hackerCost;
             hackerCount++;
-            hackerCountElement.textContent = hackerCount;
             updateUSD();
+            showPopup(`✅ Hacker purchased! You now have ${hackerCount} hackers.`);
         } else {
             showPopup("❌ Not enough Bitcoin to buy a hacker!");
         }
@@ -168,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
             bitcoinAmount -= poolCost;
             poolBonus += 5;  // Example pool bonus increase
             updateUSD();
-            showPopup(`You joined a mining pool! Pool bonus increased by 5%`);
+            showPopup(`✅ You joined a mining pool! Pool bonus increased by 5%`);
         } else {
             showPopup("❌ Not enough Bitcoin to join a pool!");
         }
