@@ -2,9 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Game Variables
     let bitcoinAmount = 10; // Starting with 10 BTC
     let usdAmount = 0;
-    let hashRate = 0.01;
+    let hashRate = 0.01; // Initial hash rate
     let powerUsage = 10;
-    let rigCost = 0.05;
+    let rigCost = 0.05; // Cost of the rig upgrade
+    let rigUpgradeCost = 0.1; // Cost to upgrade the rig (in BTC)
     let securityLevel = 0;
     let poolBonus = 0;
     let bitcoinValue = 50000; // Initial Bitcoin Value
@@ -19,12 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const mineButton = document.getElementById("mineButton");
     const bitcoinAmountElement = document.getElementById("bitcoinAmount");
     const usdAmountElement = document.getElementById("usdAmount");
-    const bitcoinValueElement = document.getElementById("bitcoinValue"); // Bitcoin value
+    const bitcoinValueElement = document.getElementById("bitcoinValue");
     const securityLevelElement = document.getElementById("securityLevel");
     const hackerCountElement = document.getElementById("hackerCount");
     const buyHackerButton = document.getElementById("buyHackerButton");
     const darkWebButton = document.getElementById("darkWebButton");
     const upgradeSecurityButton = document.getElementById("upgradeSecurityButton");
+    const upgradeRigButton = document.getElementById("upgradeRigButton"); // New button for upgrading rig
     const playButton = document.getElementById("playButton");
     const homePage = document.getElementById("homePage");
     const gamePage = document.getElementById("gamePage");
@@ -48,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     buyHackerButton.addEventListener("click", buyHacker);
     darkWebButton.addEventListener("click", checkDarkMarket);
     upgradeSecurityButton.addEventListener("click", upgradeSecurity);
+    upgradeRigButton.addEventListener("click", upgradeRig); // Event listener for upgrading rig
     joinPoolButton.addEventListener("click", joinMiningPool);
 
     // Play Button (Page Transition)
@@ -103,6 +106,18 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             popupLog.style.display = "none";
         }, 4000); // Hide after 4 seconds
+    }
+
+    // Upgrade Rig (Increase Hash Rate)
+    function upgradeRig() {
+        if (bitcoinAmount >= rigUpgradeCost) {
+            bitcoinAmount -= rigUpgradeCost;
+            hashRate += 0.01; // Increase hash rate by 0.01 (this can be adjusted)
+            updateUSD();
+            showPopup(`✅ Rig upgraded! Hash rate increased to ${hashRate.toFixed(4)}.`);
+        } else {
+            showPopup("❌ Not enough Bitcoin to upgrade rig!");
+        }
     }
 
     // Random Hacker Theft Event
