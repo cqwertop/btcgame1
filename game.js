@@ -25,9 +25,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const homePage = document.getElementById("homePage");
     const gamePage = document.getElementById("gamePage");
 
-    // Hacker Log
+    // Create a hacker theft log
     const hackerLogElement = document.createElement("div");
     hackerLogElement.id = "hackerLog";
+    hackerLogElement.style.position = "fixed";
+    hackerLogElement.style.bottom = "10px";
+    hackerLogElement.style.right = "10px";
+    hackerLogElement.style.background = "rgba(0, 0, 0, 0.8)";
+    hackerLogElement.style.color = "white";
+    hackerLogElement.style.padding = "10px";
+    hackerLogElement.style.borderRadius = "8px";
+    hackerLogElement.style.display = "none"; // Initially hidden
     document.body.appendChild(hackerLogElement);
 
     // Event Listeners
@@ -61,8 +69,17 @@ document.addEventListener("DOMContentLoaded", function () {
             hackerCountElement.textContent = hackerCount;
             updateUSD();
         } else {
-            alert("Not enough Bitcoin to buy a hacker!");
+            alert("❌ Not enough Bitcoin to buy a hacker!");
         }
+    }
+
+    // Show a popup message
+    function showPopup(message) {
+        hackerLogElement.innerHTML = `<p>${message}</p>`;
+        hackerLogElement.style.display = "block";
+        setTimeout(() => {
+            hackerLogElement.style.display = "none";
+        }, 4000); // Hide after 4 seconds
     }
 
     // Random Hacker Theft Event
@@ -78,12 +95,12 @@ document.addEventListener("DOMContentLoaded", function () {
             bitcoinAmount -= stolenAmount;
             updateUSD();
 
-            // Log the theft event
-            hackerLogElement.innerHTML += `<p>💀 A hacker stole ${stolenAmount.toFixed(2)} BTC!</p>`;
+            // Show a popup alert
+            showPopup(`💀 A hacker stole ${stolenAmount.toFixed(4)} BTC!`);
         }
     }
 
-    // Run hacker theft every 10 seconds (for testing)
+    // Run hacker theft every 10 seconds
     setInterval(hackerSteal, 10000);
 
     // Initialize USD
