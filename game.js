@@ -8,14 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
     let securityLevel = 0;
     let poolBonus = 0;
     let bitcoinValue = 50000;
-    let poolCost = 120;
-    let prestigeCost = 1000;
+    let poolCost = 200;
+    let darkWebRisk = 0;
+    let prestigeCost = 2000;
     let hackerCount = 0;
-    let hackerCost = 90;
-    let securityUpgradeCost = 5;
-    let fakeWallets = 0;
-    let ransomwareEnabled = false;
-    let ddosProtectionActive = false;
+    let hackerCost = 50;
+    let securityUpgradeCost = 100;
 
     // DOM Elements
     const mineButton = document.getElementById("mineButton");
@@ -24,11 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const securityLevelElement = document.getElementById("securityLevel");
     const hackerCountElement = document.getElementById("hackerCount");
     const buyHackerButton = document.getElementById("buyHackerButton");
-    const joinPoolButton = document.getElementById("joinPoolButton");
-    const buyFakeWalletButton = document.getElementById("buyFakeWalletButton");
-    const enableRansomwareButton = document.getElementById("enableRansomwareButton");
-    const enableDDoSProtectionButton = document.getElementById("enableDDoSProtectionButton");
-    const prestigeButton = document.getElementById("prestigeButton");
+    const darkWebButton = document.getElementById("darkWebButton");
+    const upgradeSecurityButton = document.getElementById("upgradeSecurityButton");
     const playButton = document.getElementById("playButton");
     const homePage = document.getElementById("homePage");
     const gamePage = document.getElementById("gamePage");
@@ -49,13 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event Listeners
     mineButton.addEventListener("click", mineBitcoin);
     buyHackerButton.addEventListener("click", buyHacker);
-    joinPoolButton.addEventListener("click", joinMiningPool);
-    buyFakeWalletButton.addEventListener("click", buyFakeWallet);
-    enableRansomwareButton.addEventListener("click", enableRansomware);
-    enableDDoSProtectionButton.addEventListener("click", enableDDoSProtection);
-    prestigeButton.addEventListener("click", prestige);
+    darkWebButton.addEventListener("click", checkDarkMarket);
+    upgradeSecurityButton.addEventListener("click", upgradeSecurity);
 
-    // Play Button (Fixing the Page Transition)
+    // Play Button (Page Transition)
     playButton.addEventListener("click", function () {
         homePage.style.display = "none";
         gamePage.style.display = "block";
@@ -87,76 +79,72 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Join Mining Pool
-    function joinMiningPool() {
-        if (bitcoinAmount >= poolCost) {
-            bitcoinAmount -= poolCost;
-            poolBonus += 5; // Increase pool bonus by 5%
-            updateUSD();
-            showPopup("💎 You joined a mining pool! Pool bonus increased.");
-        } else {
-            showPopup("❌ Not enough Bitcoin to join a mining pool!");
-        }
-    }
-
-    // Buy Fake Wallet
-    function buyFakeWallet() {
-        if (bitcoinAmount >= 50) {
-            bitcoinAmount -= 50;
-            fakeWallets++;
-            updateUSD();
-            showPopup(`🛡️ You bought a fake wallet! Fake wallets: ${fakeWallets}`);
-        } else {
-            showPopup("❌ Not enough Bitcoin to buy a fake wallet!");
-        }
-    }
-
-    // Enable Ransomware
-    function enableRansomware() {
-        if (bitcoinAmount >= 200) {
-            bitcoinAmount -= 200;
-            ransomwareEnabled = true;
-            showPopup("💣 Ransomware enabled! Your risk of losing Bitcoin is now higher.");
-        } else {
-            showPopup("❌ Not enough Bitcoin to enable ransomware!");
-        }
-    }
-
-    // Enable DDoS Protection
-    function enableDDoSProtection() {
-        if (bitcoinAmount >= 150) {
-            bitcoinAmount -= 150;
-            ddosProtectionActive = true;
-            showPopup("🛡️ DDoS protection activated! Your mining rate is safe.");
-        } else {
-            showPopup("❌ Not enough Bitcoin to enable DDoS protection!");
-        }
-    }
-
-    // Prestige
-    function prestige() {
-        if (bitcoinAmount >= prestigeCost) {
-            bitcoinAmount = 0;
-            poolBonus = 0;
-            securityLevel = 0;
-            hackerCount = 0;
-            fakeWallets = 0;
-            ransomwareEnabled = false;
-            ddosProtectionActive = false;
-            updateUSD();
-            showPopup("🎉 You've prestiged! All your progress has reset for permanent bonuses.");
-        } else {
-            showPopup("❌ Not enough Bitcoin to prestige!");
-        }
-    }
-
     // Show a popup message
     function showPopup(message) {
+        popupLog.innerHTML = ''; // Clear previous messages
         popupLog.innerHTML = `<p>${message}</p>`;
         popupLog.style.display = "block";
         setTimeout(() => {
             popupLog.style.display = "none";
         }, 4000); // Hide after 4 seconds
+    }
+
+    // Random Hacker Theft Event
+    function hackerSteal() {
+        if (bitcoinAmount > 0 && Math.random() < 0.3) {
+            let maxSteal = bitcoinAmount * 0.09;
+            let stolenAmount = Math.random() * maxSteal;
+            stolenAmount *= (1 - securityLevel * 0.1); // Security reduces theft
+            stolenAmount = Math.max(stolenAmount, 0);
+
+            bitcoinAmount -= stolenAmount;
+            updateUSD();
+            showPopup(`💀 A hacker stole ${stolenAmount.toFixed(4)} BTC!`);
+        }
+    }
+
+    // Run hacker theft every 10 seconds
+    setInterval(hackerSteal, 10000);
+
+    // Check Dark Market (New Events Added)
+    function checkDarkMarket() {
+        let randomEvent = Math.random();
+        if (randomEvent < 0.3) {
+            showPopup("🕵️ You found a shady deal but decided to walk away...");
+        } else if (randomEvent < 0.5) {
+            let lostBTC = bitcoinAmount * 0.05; 
+            bitcoinAmount -= lostBTC;
+            updateUSD();
+            showPopup(`⚠️ You got scammed! Lost ${lostBTC.toFixed(4)} BTC.`);
+        } else if (randomEvent < 0.7) {
+            let gainedBTC = Math.random() * 0.1;
+            bitcoinAmount += gainedBTC;
+            updateUSD();
+            showPopup(`💰 You made a risky trade and earned ${gainedBTC.toFixed(4)} BTC!`);
+        } else if (randomEvent < 0.85) {
+            let minerBoost = Math.random() * 0.05;
+            hashRate += minerBoost;
+            darkWebRisk += 5; 
+            showPopup(`🛠️ You bought illegal miners! Hash rate +${minerBoost.toFixed(4)}, but hacker risk increased.`);
+        } else {
+            let lostBTC = bitcoinAmount * 0.1;
+            securityLevel = Math.max(0, securityLevel - 1); 
+            bitcoinAmount -= lostBTC;
+            updateUSD();
+            showPopup(`🚨 Government raid! Lost ${lostBTC.toFixed(4)} BTC and security level dropped.`);
+        }
+    }
+
+    // Upgrade Security
+    function upgradeSecurity() {
+        if (bitcoinAmount >= securityUpgradeCost) {
+            bitcoinAmount -= securityUpgradeCost;
+            securityLevel++;
+            updateUSD();
+            showPopup(`🛡️ Security upgraded! Level ${securityLevel}`);
+        } else {
+            showPopup("❌ Not enough Bitcoin to upgrade security!");
+        }
     }
 
     // Initialize USD
