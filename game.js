@@ -21,26 +21,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const securityLevelElement = document.getElementById("securityLevel");
     const hackerCountElement = document.getElementById("hackerCount");
     const buyHackerButton = document.getElementById("buyHackerButton");
+    const checkDarkMarketButton = document.getElementById("checkDarkMarketButton");
     const playButton = document.getElementById("playButton");
     const homePage = document.getElementById("homePage");
     const gamePage = document.getElementById("gamePage");
 
-    // Create a hacker theft log
-    const hackerLogElement = document.createElement("div");
-    hackerLogElement.id = "hackerLog";
-    hackerLogElement.style.position = "fixed";
-    hackerLogElement.style.bottom = "10px";
-    hackerLogElement.style.right = "10px";
-    hackerLogElement.style.background = "rgba(0, 0, 0, 0.8)";
-    hackerLogElement.style.color = "white";
-    hackerLogElement.style.padding = "10px";
-    hackerLogElement.style.borderRadius = "8px";
-    hackerLogElement.style.display = "none"; // Initially hidden
-    document.body.appendChild(hackerLogElement);
+    // Popup Log Box
+    const popupLog = document.createElement("div");
+    popupLog.id = "popupLog";
+    popupLog.style.position = "fixed";
+    popupLog.style.bottom = "10px";
+    popupLog.style.right = "10px";
+    popupLog.style.background = "rgba(0, 0, 0, 0.8)";
+    popupLog.style.color = "white";
+    popupLog.style.padding = "10px";
+    popupLog.style.borderRadius = "8px";
+    popupLog.style.display = "none";
+    document.body.appendChild(popupLog);
 
     // Event Listeners
     mineButton.addEventListener("click", mineBitcoin);
     buyHackerButton.addEventListener("click", buyHacker);
+    checkDarkMarketButton.addEventListener("click", checkDarkMarket);
 
     // Play Button (Fixing the Page Transition)
     playButton.addEventListener("click", function () {
@@ -69,16 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
             hackerCountElement.textContent = hackerCount;
             updateUSD();
         } else {
-            alert("❌ Not enough Bitcoin to buy a hacker!");
+            showPopup("❌ Not enough Bitcoin to buy a hacker!");
         }
     }
 
     // Show a popup message
     function showPopup(message) {
-        hackerLogElement.innerHTML = `<p>${message}</p>`;
-        hackerLogElement.style.display = "block";
+        popupLog.innerHTML = `<p>${message}</p>`;
+        popupLog.style.display = "block";
         setTimeout(() => {
-            hackerLogElement.style.display = "none";
+            popupLog.style.display = "none";
         }, 4000); // Hide after 4 seconds
     }
 
@@ -102,6 +104,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Run hacker theft every 10 seconds
     setInterval(hackerSteal, 10000);
+
+    // Check Dark Market (New Feature)
+    function checkDarkMarket() {
+        let randomEvent = Math.random();
+        if (randomEvent < 0.4) {
+            showPopup("🕵️ You found a shady deal but decided to walk away...");
+        } else if (randomEvent < 0.7) {
+            let lostBTC = bitcoinAmount * 0.05; // Lose 5% of BTC
+            bitcoinAmount -= lostBTC;
+            updateUSD();
+            showPopup(`⚠️ You got scammed! Lost ${lostBTC.toFixed(4)} BTC.`);
+        } else {
+            let gainedBTC = Math.random() * 0.1; // Gain up to 0.1 BTC
+            bitcoinAmount += gainedBTC;
+            updateUSD();
+            showPopup(`💰 You made a risky trade and earned ${gainedBTC.toFixed(4)} BTC!`);
+        }
+    }
 
     // Initialize USD
     updateUSD();
