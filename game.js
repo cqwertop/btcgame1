@@ -82,4 +82,85 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Show a popup message
-   
+    function showPopup(message) {
+        popupLog.innerHTML = ''; // Clear previous messages
+        popupLog.innerHTML = `<p>${message}</p>`;
+        popupLog.style.display = "block";
+        setTimeout(() => {
+            popupLog.style.display = "none";
+        }, 4000); // Hide after 4 seconds
+    }
+
+    // Random Hacker Theft Event
+    function hackerSteal() {
+        if (bitcoinAmount > 0 && Math.random() < 0.3) {
+            let maxSteal = bitcoinAmount * 0.09;
+            let stolenAmount = Math.random() * maxSteal;
+            stolenAmount *= (1 - securityLevel * 0.1); // Security reduces theft
+            stolenAmount = Math.max(stolenAmount, 0);
+
+            bitcoinAmount -= stolenAmount;
+            updateUSD();
+            showPopup(`💀 A hacker stole ${stolenAmount.toFixed(4)} BTC!`);
+        }
+    }
+
+    // Run hacker theft every 10 seconds
+    setInterval(hackerSteal, 10000);
+
+    // Check Dark Market (New Events Added)
+    function checkDarkMarket() {
+        let randomEvent = Math.random();
+        if (randomEvent < 0.3) {
+            showPopup("🕵️ You found a shady deal but decided to walk away...");
+        } else if (randomEvent < 0.5) {
+            let lostBTC = bitcoinAmount * 0.05; 
+            bitcoinAmount -= lostBTC;
+            updateUSD();
+            showPopup(`⚠️ You got scammed! Lost ${lostBTC.toFixed(4)} BTC.`);
+        } else if (randomEvent < 0.7) {
+            let gainedBTC = Math.random() * 0.1;
+            bitcoinAmount += gainedBTC;
+            updateUSD();
+            showPopup(`💰 You made a risky trade and earned ${gainedBTC.toFixed(4)} BTC!`);
+        } else if (randomEvent < 0.85) {
+            let minerBoost = Math.random() * 0.05;
+            hashRate += minerBoost;
+            darkWebRisk += 5; 
+            showPopup(`🛠️ You bought illegal miners! Hash rate +${minerBoost.toFixed(4)}, but hacker risk increased.`);
+        } else {
+            let lostBTC = bitcoinAmount * 0.1;
+            securityLevel = Math.max(0, securityLevel - 1); 
+            bitcoinAmount -= lostBTC;
+            updateUSD();
+            showPopup(`🚨 Government raid! Lost ${lostBTC.toFixed(4)} BTC and security level dropped.`);
+        }
+    }
+
+    // Upgrade Security
+    function upgradeSecurity() {
+        if (bitcoinAmount >= securityUpgradeCost) {
+            bitcoinAmount -= securityUpgradeCost;
+            securityLevel++;
+            updateUSD();
+            showPopup(`🛡️ Security upgraded! Level ${securityLevel}`);
+        } else {
+            showPopup("❌ Not enough Bitcoin to upgrade security!");
+        }
+    }
+
+    // Join Mining Pool
+    function joinMiningPool() {
+        if (bitcoinAmount >= poolCost) {
+            bitcoinAmount -= poolCost;
+            poolBonus += 5;  // Example pool bonus increase
+            updateUSD();
+            showPopup(`You joined a mining pool! Pool bonus increased by 5%`);
+        } else {
+            showPopup("❌ Not enough Bitcoin to join a pool!");
+        }
+    }
+
+    // Initialize USD
+    updateUSD();
+});
