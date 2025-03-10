@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let rigCost = 0.05;
     let securityLevel = 0;
     let poolBonus = 0;
-    let bitcoinValue = 50000;
+    let bitcoinValue = 50000; // Initial Bitcoin Value
     let poolCost = 120; // Cost to join pool
     let darkWebRisk = 0;
     let prestigeCost = 2000;
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mineButton = document.getElementById("mineButton");
     const bitcoinAmountElement = document.getElementById("bitcoinAmount");
     const usdAmountElement = document.getElementById("usdAmount");
+    const bitcoinValueElement = document.getElementById("bitcoinValue"); // New element to display Bitcoin value
     const securityLevelElement = document.getElementById("securityLevel");
     const hackerCountElement = document.getElementById("hackerCount");
     const buyHackerButton = document.getElementById("buyHackerButton");
@@ -60,8 +61,20 @@ document.addEventListener("DOMContentLoaded", function () {
         usdAmount = bitcoinAmount * bitcoinValue;
         usdAmountElement.textContent = usdAmount.toFixed(2);
         bitcoinAmountElement.textContent = bitcoinAmount.toFixed(2);
+        bitcoinValueElement.textContent = bitcoinValue.toFixed(2); // Update Bitcoin value on the page
         securityLevelElement.textContent = securityLevel;
     }
+
+    // Bitcoin Value Fluctuation (Randomize Bitcoin Value every few seconds)
+    function fluctuateBitcoinValue() {
+        const fluctuation = (Math.random() - 0.5) * 0.1; // Random fluctuation between -5% and +5%
+        bitcoinValue += bitcoinValue * fluctuation;
+        bitcoinValue = Math.max(1, bitcoinValue); // Ensure the Bitcoin value doesn't drop below 1
+        updateUSD();
+    }
+
+    // Call the fluctuate function every 5 seconds
+    setInterval(fluctuateBitcoinValue, 5000);
 
     // Mining Logic
     function mineBitcoin() {
