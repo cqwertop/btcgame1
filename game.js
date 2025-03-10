@@ -1,170 +1,80 @@
 // Game Variables
 let bitcoinAmount = 0;
-let usdAmount = 0;  // USD amount
-let hashRate = 1;
+let usdAmount = 0;
+let hashRate = 0.01;
 let powerUsage = 10;
-let rigCost = 100;
+let rigCost = 0.05;
 let securityLevel = 0;
 let poolBonus = 0;
 let bitcoinValue = 50000;
-let poolCost = 200;
+let poolCost = 120;
 let darkWebRisk = 0;
-let prestigeCost = 200000000000000;
-let marketFluctuationInterval = 2500; // Market updates every 5 seconds
-let hackerCount = 0; // Number of hackers owned
-let hackerCost = 100000000; // Cost per hacker
+let prestigeCost = 2000;
+let hackerCount = 0;
+let hackerCost = 100;
 
 // DOM Elements
 const mineButton = document.getElementById("mineButton");
 const bitcoinAmountElement = document.getElementById("bitcoinAmount");
 const usdAmountElement = document.getElementById("usdAmount");
-const hashRateElement = document.getElementById("hashRate");
-const powerUsageElement = document.getElementById("powerUsage");
-const rigCostElement = document.getElementById("rigCost");
 const securityLevelElement = document.getElementById("securityLevel");
-const poolBonusElement = document.getElementById("poolBonus");
-const bitcoinValueElement = document.getElementById("bitcoinValue");
-const buyRigButton = document.getElementById("buyRigButton");
-const buySecurityButton = document.getElementById("buySecurityButton");
-const joinPoolButton = document.getElementById("joinPoolButton");
-const darkWebButton = document.getElementById("darkWebButton");
-const prestigeButton = document.getElementById("prestigeButton");
-const buyHackerButton = document.getElementById("buyHackerButton"); // Added hacker buy button
-const hackerCountElement = document.getElementById("hackerCount"); // Element for hacker count
+const hackerCountElement = document.getElementById("hackerCount");
+const buyHackerButton = document.getElementById("buyHackerButton");
+const hackerLogElement = document.createElement("div"); // Create a log for hacker events
+
+// Add the hacker log to the page
+hackerLogElement.id = "hackerLog";
+document.body.appendChild(hackerLogElement);
 
 // Event Listeners
 mineButton.addEventListener("click", mineBitcoin);
-buyRigButton.addEventListener("click", upgradeRig);
-buySecurityButton.addEventListener("click", buySecurity);
-joinPoolButton.addEventListener("click", joinPool);
-darkWebButton.addEventListener("click", checkDarkWeb);
-prestigeButton.addEventListener("click", prestige);
-buyHackerButton.addEventListener("click", buyHacker); // Event listener for buying hackers
+buyHackerButton.addEventListener("click", buyHacker);
 
 // Update USD amount
 function updateUSD() {
     usdAmount = bitcoinAmount * bitcoinValue;
-    usdAmountElement.textContent = usdAmount.toFixed(2); // Update USD display
-    bitcoinAmountElement.textContent = bitcoinAmount.toFixed(2); // Update Bitcoin display
+    usdAmountElement.textContent = usdAmount.toFixed(2);
+    bitcoinAmountElement.textContent = bitcoinAmount.toFixed(2);
 }
 
 // Mining Logic
 function mineBitcoin() {
-    bitcoinAmount += (hashRate * (1 + poolBonus / 100));
+    bitcoinAmount += (hashRate * (0.01 + poolBonus / 100));
     updateUSD();
 }
 
-// Upgrade Rig Logic
-function upgradeRig() {
-    if (bitcoinAmount >= rigCost) {
-        bitcoinAmount -= rigCost;
-        hashRate += 2; // Increase hash rate by 2
-        powerUsage += 5; // Increase power usage with each upgrade
-        rigCost *= 1.5; // Increase cost for the next upgrade
-        hashRateElement.textContent = hashRate;
-        powerUsageElement.textContent = powerUsage;
-        rigCostElement.textContent = rigCost.toFixed(2);
-        updateUSD(); // Update Bitcoin and USD displays
-    } else {
-        alert("Not enough Bitcoin to upgrade!");
-    }
-}
-
-// Buy Security Logic
-function buySecurity() {
-    if (bitcoinAmount >= 50) {
-        bitcoinAmount -= 50;
-        securityLevel += 1;
-        securityLevelElement.textContent = securityLevel;
-        updateUSD(); // Update Bitcoin and USD displays
-    } else {
-        alert("Not enough Bitcoin for security upgrade!");
-    }
-}
-
-// Join Mining Pool Logic
-function joinPool() {
-    if (bitcoinAmount >= poolCost) {
-        bitcoinAmount -= poolCost;
-        poolBonus += 10; // Increase pool bonus by 10%
-        poolBonusElement.textContent = poolBonus;
-        updateUSD(); // Update Bitcoin and USD displays
-    } else {
-        alert("Not enough Bitcoin to join the pool!");
-    }
-}
-
-// Dark Web Market Logic
-function checkDarkWeb() {
-    const riskChance = Math.random();
-    if (riskChance < 0.5) {
-        // Successful dark web deal
-        bitcoinAmount += 100; // Boost bitcoin by 100
-        alert("You successfully bought a boost from the Dark Web!");
-    } else {
-        // Risk of losing money
-        bitcoinAmount -= 50; // Lose 50 BTC
-        alert("The Dark Web deal was a scam! You lost some Bitcoin.");
-    }
-    updateUSD(); // Update Bitcoin and USD displays
-}
-
-// Prestige System
-function prestige() {
-    if (bitcoinAmount >= prestigeCost) {
-        bitcoinAmount -= prestigeCost;
-        hashRate = 1; // Reset hash rate
-        powerUsage = 10; // Reset power usage
-        securityLevel = 0; // Reset security
-        poolBonus = 0; // Reset pool bonus
-        rigCost = 100; // Reset rig cost
-        prestigeCost *= 2; // Increase prestige cost for next time
-        alert("You have forked a new project! You start with new bonuses.");
-        updateUSD(); // Update Bitcoin and USD displays
-    } else {
-        alert("Not enough Bitcoin for prestige!");
-    }
-}
-
-// Market Fluctuation
-function fluctuateMarket() {
-    bitcoinValue = Math.floor(Math.random() * 100000) + 20000; // Bitcoin value fluctuates between 20,000 and 120,000 USD
-    bitcoinValueElement.textContent = bitcoinValue;
-}
-
-// Start market fluctuation
-setInterval(fluctuateMarket, marketFluctuationInterval);
-
-// Hacker Logic - Buying Hackers and Random Theft Events
+// Buy Hacker
 function buyHacker() {
     if (bitcoinAmount >= hackerCost) {
         bitcoinAmount -= hackerCost;
         hackerCount++;
         hackerCountElement.textContent = hackerCount;
-        updateUSD(); // Update Bitcoin and USD displays
+        updateUSD();
     } else {
         alert("Not enough Bitcoin to buy a hacker!");
     }
 }
 
-// Random Hacker Theft - Steals Bitcoin at random intervals
+// Random Hacker Theft Event
 function hackerSteal() {
-    if (Math.random() < 0.2) { // 20% chance for hacker event
-        let stolenAmount = Math.random() * (bitcoinAmount * 0.1); // Hackers steal up to 10% of Bitcoin
+    if (bitcoinAmount > 0 && Math.random() < 0.3) { // Increased to 30% chance
+        let maxSteal = bitcoinAmount * 0.09; // Up to 9% stolen
+        let stolenAmount = Math.random() * maxSteal;
+
+        // Reduce theft based on security level (each level reduces by 10%)
+        stolenAmount *= (1 - securityLevel * 0.1);
+        stolenAmount = Math.max(stolenAmount, 0); // Ensure not negative
+
         bitcoinAmount -= stolenAmount;
-        alert(`A hacker stole ${stolenAmount.toFixed(2)} BTC!`);
-        updateUSD(); // Update Bitcoin and USD displays
+        updateUSD();
+
+        // Log the theft event
+        hackerLogElement.innerHTML += `<p>💀 A hacker stole ${stolenAmount.toFixed(2)} BTC!</p>`;
     }
 }
 
-// Random hacker events every 5 minutes
-setInterval(hackerSteal, 300000); // 300000ms = 5 minutes
-
-// Home Page Logic (Hiding/Showing Home Screen and Game)
-document.getElementById("playButton").onclick = function() {
-    document.getElementById("homePage").style.display = "none";
-    document.getElementById("gamePage").style.display = "block";
-};
+// Run hacker theft every 10 seconds (for testing)
+setInterval(hackerSteal, 10000);
 
 // Initialize USD
 updateUSD();
