@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Game Variables
-    let bitcoinAmount = 10;
+    let bitcoinAmount = 0;
     let usdAmount = 0;
     let hashRate = 0.01;
     let bitcoinValue = 50000;
