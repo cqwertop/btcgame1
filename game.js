@@ -1,3 +1,18 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, query, orderBy, getDocs } from "firebase/firestore";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA-fcQJoi2jkBJ9eVKuhb2N6B1EcjUzqLc",
+    authDomain: "btcgame1-d0e52.firebaseapp.com",
+    projectId: "btcgame1-d0e52",
+    storageBucket: "btcgame1-d0e52.firebasestorage.app",
+    messagingSenderId: "493873161784",
+    appId: "1:493873161784:web:9db726f968cecea212a8cd",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 document.getElementById("playButton").addEventListener("click", function() {
     document.getElementById("homePage").style.display = "none";
     document.getElementById("gamePage").style.display = "block";
@@ -89,5 +104,42 @@ function hackerAttack() {
     }
 }
 setInterval(hackerAttack, 15000);
+
+// Firebase Leaderboard Functions
+async function submitScore(username) {
+    try {
+        const leaderboardRef = collection(db, "leaderboard");
+        await addDoc(leaderboardRef, { username, score: bitcoin, timestamp: Date.now() });
+        alert("Score submitted!");
+    } catch (e) {
+        console.error("Error submitting score: ", e);
+    }
+}
+
+document.getElementById("submitScoreButton").addEventListener("click", function() {
+    let username = prompt("Enter your username:");
+    if (username) {
+        submitScore(username);
+    }
+});
+
+async function displayLeaderboard() {
+    const leaderboardRef = collection(db, "leaderboard");
+    const q = query(leaderboardRef, orderBy("score", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    let leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = "";
+
+    querySnapshot.forEach((doc, index) => {
+        if (index < 10) {
+            let listItem = document.createElement("li");
+            listItem.innerText = `${index + 1}. ${doc.data().username} - ${doc.data().score.toFixed(2)} BTC`;
+            leaderboardList.appendChild(listItem);
+        }
+    });
+}
+
+document.getElementById("showLeaderboardButton").addEventListener("click", displayLeaderboard);
 
 updateDisplay();
